@@ -205,7 +205,7 @@ func healthCheck(runtime connector.Runtime, cluster *EtcdCluster) error {
 		"export ETCDCTL_CERT_FILE='/etc/ssl/etcd/ssl/admin-%s.pem';"+
 		"export ETCDCTL_KEY_FILE='/etc/ssl/etcd/ssl/admin-%s-key.pem';"+
 		"export ETCDCTL_CA_FILE='/etc/ssl/etcd/ssl/ca.pem';"+
-		"%s/etcdctl --endpoints=%s cluster-health | grep -q 'cluster is healthy'",
+		"%s/etcdctl --endpoints=%s --cluster=true endpoint health | grep -q 'is healthy'",
 		host.GetName(), host.GetName(), common.BinDir, cluster.accessAddresses)
 	if _, err := runtime.GetRunner().SudoCmd(checkHealthCmd, false); err != nil {
 		return errors.Wrap(errors.WithStack(err), "etcd health check failed")
